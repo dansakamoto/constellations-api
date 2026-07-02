@@ -1,9 +1,37 @@
 from astroquery.simbad import Simbad
 import numpy as np
-import json
+import json, sys
 
 
 def main():
+
+    SELECTED = input("Enter key to lookup: ")
+    FORMAT = "json"
+
+    constellations = {
+        "orion": "* Ori",
+        "ursamajor": "* UMa",
+        "ursaminor": "* UMi",
+        "aries": "* Ari",
+        "taurus": "* Tau",
+        "gemini": "* Gem",
+        "cancer": "* Cnc",
+        "leo": "* Leo",
+        "virgo": "* Vir",
+        "libra": "* Lib",
+        "scorpio": "* Sco",
+        "sagittarius": "* Sgr",
+        "capricorn": "* Cap",
+        "aquarius": "* Aqr",
+        "pisces": "* Psc",
+    }
+
+    if SELECTED.lower() not in constellations:
+        print("Requested key not found.")
+        sys.exit(1)
+
+    STAR_CODE = constellations[SELECTED.lower()]
+
     simbad = Simbad()
 
     simbad.add_votable_fields(
