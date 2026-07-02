@@ -1,9 +1,9 @@
 from astroquery.simbad import Simbad
 import numpy as np
-import json, sys
+import json, sys, asyncio
 
 
-def main():
+async def main():
 
     SELECTED = input("Enter key to lookup: ")
     FORMAT = "json"
@@ -84,4 +84,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
