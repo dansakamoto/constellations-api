@@ -39,40 +39,48 @@ def main():
     )
 
     info_simbad = simbad.query_object(
-        "* Lib", wildcard=True, criteria="otype = 'star..'"
+        STAR_CODE, wildcard=True, criteria="otype = 'star..'"
     )
 
-    data_raw = info_simbad.pformat()
-    data_formatted = {}
+    if FORMAT == "csv":
+        np.savetxt("data/results.csv", info_simbad.pformat(), delimiter=",", fmt="%s")
 
-    for row in info_simbad:
-        if row["main_id"] in data_formatted:
-            continue
+    elif FORMAT == "json":
+        data_raw = info_simbad.pformat()
+        data_formatted = {}
 
-        data = {
-            "ra": row["ra"],
-            "dec": row["dec"],
-            "otype": row["otype"],
-        }
+        for row in info_simbad:
+            if row["main_id"] in data_formatted:
+                continue
 
-        if row["plx_value"] is not np.ma.masked:
-            data["plx_value"] = row["plx_value"]
+            if row["ra"] is np.ma.masked:
+                continue
+            if row["dec"] is np.ma.masked:
+                continue
+            if row["otype"] is np.ma.masked:
+                continue
 
-        if row["mesdistance.dist"] is not np.ma.masked:
-            data["dist"] = row["mesdistance.dist"]
-            data["dist_unit"] = row["mesdistance.unit"].strip()
-            data["dist_method"] = row["mesdistance.method"].strip()
+            data = {
+                "ra": row["ra"],
+                "dec": row["dec"],
+                "otype": row["otype"],
+            }
 
-        data_formatted[row["main_id"]] = data
+            if row["plx_value"] is not np.ma.masked:
+                data["plx_value"] = row["plx_value"]
 
-    fName = f"data/results.json"
-    with open(fName, "w") as f:
-        print("\nWriting results to file " + fName)
-        f.write(json.dumps(data_formatted, indent=2, ensure_ascii=False))
-        f.close()
+            if row["mesdistance.dist"] is not np.ma.masked:
+                data["dist"] = row["mesdistance.dist"]
+                data["dist_unit"] = row["mesdistance.unit"].strip()
+                data["dist_method"] = row["mesdistance.method"].strip()
 
+            data_formatted[row["main_id"]] = data
 
-#    np.savetxt("data/results.csv", info_simbad.pformat(), delimiter=",", fmt="%s")
+        fName = f"data/results.json"
+        with open(fName, "w") as f:
+            print("\nWriting results to file " + fName)
+            f.write(json.dumps(data_formatted, indent=2, ensure_ascii=False))
+            f.close()
 
 
 if __name__ == "__main__":
