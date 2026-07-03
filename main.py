@@ -5,34 +5,33 @@ from time import sleep
 
 app = FastAPI()
 
+constellations = {
+    "orion": "* Ori",
+    "ursamajor": "* UMa",
+    "ursaminor": "* UMi",
+    "aries": "* Ari",
+    "taurus": "* Tau",
+    "gemini": "* Gem",
+    "cancer": "* Cnc",
+    "leo": "* Leo",
+    "virgo": "* Vir",
+    "libra": "* Lib",
+    "scorpio": "* Sco",
+    "sagittarius": "* Sgr",
+    "capricorn": "* Cap",
+    "aquarius": "* Aqr",
+    "pisces": "* Psc",
+}
+
 
 @app.get("/")
 def read_root():
-    return {"status": "running"}
+    return {"status": "running", "supported_keys": list(constellations.keys())}
 
 
 @app.get("/{item_key}")
 def read_item(item_key: str):
-
     SELECTED = item_key
-
-    constellations = {
-        "orion": "* Ori",
-        "ursamajor": "* UMa",
-        "ursaminor": "* UMi",
-        "aries": "* Ari",
-        "taurus": "* Tau",
-        "gemini": "* Gem",
-        "cancer": "* Cnc",
-        "leo": "* Leo",
-        "virgo": "* Vir",
-        "libra": "* Lib",
-        "scorpio": "* Sco",
-        "sagittarius": "* Sgr",
-        "capricorn": "* Cap",
-        "aquarius": "* Aqr",
-        "pisces": "* Psc",
-    }
 
     if SELECTED.lower() not in constellations:
         return {"status": "error", "details": "Requested key not found."}
