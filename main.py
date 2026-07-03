@@ -1,11 +1,11 @@
 from astroquery.simbad import Simbad
 import numpy as np
-import json, sys, asyncio
+import json, sys
 
 
-async def main():
+def main():
 
-    SELECTED = input("Enter key to lookup: ")
+    SELECTED = "libra"
     FORMAT = "json"
 
     constellations = {
@@ -32,14 +32,14 @@ async def main():
 
     STAR_CODE = constellations[SELECTED.lower()]
 
-    simbad = Simbad()
+    simbad = Simbad(timeout=2000)
 
     simbad.add_votable_fields(
         "otype", "mesDistance", "plx_value", "plx_qual", "plx_err", "plx_err_prec"
     )
 
     info_simbad = simbad.query_object(
-        STAR_CODE, wildcard=True, criteria="otype = 'star..'"
+        STAR_CODE, wildcard=True, criteria="otype = 'star..'", async_job=True
     )
 
     if FORMAT == "csv":
@@ -84,4 +84,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
