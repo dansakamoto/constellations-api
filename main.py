@@ -1,12 +1,20 @@
 from astroquery.simbad import Simbad
 import numpy as np
-import json, sys
+from fastapi import FastAPI
+from time import sleep
+
+app = FastAPI()
 
 
-def main():
+@app.get("/")
+def read_root():
+    return {"status": "running"}
 
-    SELECTED = "libra"
-    FORMAT = "json"
+
+@app.get("/{item_key}")
+def read_item(item_key: str):
+
+    SELECTED = item_key
 
     constellations = {
         "orion": "* Ori",
@@ -27,8 +35,7 @@ def main():
     }
 
     if SELECTED.lower() not in constellations:
-        print("Requested key not found.")
-        sys.exit(1)
+        return {"status": "error", "details": "Requested key not found."}
 
     STAR_CODE = constellations[SELECTED.lower()]
 
@@ -42,46 +49,34 @@ def main():
         STAR_CODE, wildcard=True, criteria="otype = 'star..'", async_job=True
     )
 
-    if FORMAT == "csv":
-        np.savetxt("data/results.csv", info_simbad.pformat(), delimiter=",", fmt="%s")
+    data_raw = info_simbad.pformat()
+    data_formatted = {}
 
-    elif FORMAT == "json":
-        data_raw = info_simbad.pformat()
-        data_formatted = {}
+    for row in info_simbad:
+        if row["main_id"] in data_formatted:
+            continue
 
-        for row in info_simbad:
-            if row["main_id"] in data_formatted:
-                continue
+        if row["ra"] is np.ma.masked:
+            continue
+        if row["dec"] is np.ma.masked:
+            continue
+        if row["otype"] is np.ma.masked:
+            continue
 
-            if row["ra"] is np.ma.masked:
-                continue
-            if row["dec"] is np.ma.masked:
-                continue
-            if row["otype"] is np.ma.masked:
-                continue
+        data = {
+            "ra": row["ra"],
+            "dec": row["dec"],
+            "otype": row["otype"],
+        }
 
-            data = {
-                "ra": row["ra"],
-                "dec": row["dec"],
-                "otype": row["otype"],
-            }
+        if row["plx_value"] is not np.ma.masked:
+            data["plx_value"] = row["plx_value"]
 
-            if row["plx_value"] is not np.ma.masked:
-                data["plx_value"] = row["plx_value"]
+        if row["mesdistance.dist"] is not np.ma.masked:
+            data["dist"] = row["mesdistance.dist"]
+            data["dist_unit"] = row["mesdistance.unit"].strip()
+            data["dist_method"] = row["mesdistance.method"].strip()
 
-            if row["mesdistance.dist"] is not np.ma.masked:
-                data["dist"] = row["mesdistance.dist"]
-                data["dist_unit"] = row["mesdistance.unit"].strip()
-                data["dist_method"] = row["mesdistance.method"].strip()
+        data_formatted[row["main_id"]] = data
 
-            data_formatted[row["main_id"]] = data
-
-        fName = f"data/results.json"
-        with open(fName, "w") as f:
-            print("\nWriting results to file " + fName)
-            f.write(json.dumps(data_formatted, indent=2, ensure_ascii=False))
-            f.close()
-
-
-if __name__ == "__main__":
-    main()
+    return data_formatted
