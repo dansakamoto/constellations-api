@@ -1,5 +1,5 @@
 class Homepage:
-    def __init__(self):
+    def __init__(self, constellations):
         self.start = """
             <html>
                 <head>
@@ -20,6 +20,8 @@ class Homepage:
                         """
 
         self.links = ""
+        for c in constellations:
+            self.links += '<li><a href="' + c + '">' + c + "</a></li>"
 
         self.end = """
                     </u>
@@ -27,9 +29,6 @@ class Homepage:
                 </body>
             </html>
             """
-
-    def addLink(self, c):
-        self.links += '<li><a href="' + c + '">' + c + "</a></li>"
 
     def build(self):
         return self.start + self.links + self.end

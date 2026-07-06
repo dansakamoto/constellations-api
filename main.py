@@ -6,7 +6,6 @@ from fastapi.staticfiles import StaticFiles
 import asyncio
 from homepage import Homepage
 
-home = Homepage()
 app = FastAPI()
 app.mount("/style", StaticFiles(directory="static"), name="static")
 
@@ -28,12 +27,11 @@ constellations = {
     "pisces": "* Psc",
 }
 
+home = Homepage(constellations)
+
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():
-    for c in constellations:
-        home.addLink(c)
-
     return home.build()
 
 
