@@ -118,3 +118,8 @@ def call_SIMBAD(item_key: str):
         data_formatted[row["main_id"]] = data
 
     return data_formatted
+
+
+def all_votable_fields():
+    simbad = Simbad()
+    simbad.list_votable_fields().pprint_all()
