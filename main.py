@@ -4,13 +4,19 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from homepage import Homepage
+from dotenv import load_dotenv
 import ratelimiter as rl
-import asyncio, redis, json
+import asyncio, redis, json, os
+
+load_dotenv()
 
 app = FastAPI()
 app.mount("/style", StaticFiles(directory="static"), name="static")
 
-r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+if os.getenv("REDIS_MODE") == "DEV":
+    r = redis.Redis(host="localhost", decode_responses=True)
+else:
+    r = redis.Redis.from_url(os.getenv("REDIS_URL"))
 r.get("test connection")
 
 constellations = {
