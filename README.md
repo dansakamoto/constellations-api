@@ -1,4 +1,4 @@
-# Parallax
+# Constellations API
 
 ## Run command
 
