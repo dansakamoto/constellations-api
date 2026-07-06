@@ -1,0 +1,35 @@
+class Homepage:
+    def __init__(self):
+        self.start = """
+            <html>
+                <head>
+                    <title>Constellations</title>
+                    <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+                    <link rel="stylesheet" type="text/css" href="style/main.css">
+                </head>
+                <body>
+                    <div class="header">
+                    <h1>Constellations API</h1>
+                    <p>Returns a JSON-formatted list of position data for all stars within a constellation - from <a href="https://simbad.cds.unistra.fr/simbad/">SIMBAD</a>
+                    </div>
+                    <div class="content">
+                    <p>supported keys:</p>
+                    <ul>
+                        """
+
+        self.links = ""
+
+        self.end = """
+                    </u>
+                    </div>
+                </body>
+            </html>
+            """
+
+    def addLink(self, c):
+        self.links += '<li><a href="' + c + '">' + c + "</a></li>"
+
+    def build(self):
+        return self.start + self.links + self.end
