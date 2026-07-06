@@ -12,7 +12,7 @@ class Homepage:
                 <body>
                     <div class="header">
                     <h1>Constellations API</h1>
-                    <p>Returns a JSON-formatted list of position data for all stars within a constellation - from <a href="https://simbad.cds.unistra.fr/simbad/">SIMBAD</a>
+                    <p class="subtitle">Returns a JSON-formatted list of position data for all stars within a constellation - from <a href="https://simbad.cds.unistra.fr/simbad/">SIMBAD</a>
                     </div>
                     <div class="content">
                     <p>supported keys:</p>
@@ -25,6 +25,9 @@ class Homepage:
 
         self.end = """
                     </u>
+                    </div>
+                    <div class="notice">
+                        <p>Data is cached for a period of time, but please note that if a constellation hasn't been looked up in a while it can take several moments to get data from SIMBAD.</p>
                     </div>
                 </body>
             </html>

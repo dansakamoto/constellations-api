@@ -5,12 +5,13 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from homepage import Homepage
 import ratelimiter as rl
-import asyncio, redis
+import asyncio, redis, json
 
 app = FastAPI()
 app.mount("/style", StaticFiles(directory="static"), name="static")
 
 r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+r.get("test connection")
 
 constellations = {
     "orion": "* Ori",
@@ -40,12 +41,18 @@ def read_root():
 
 @app.get("/{item_key}")
 async def get_data(item_key: str):
-    if item_key.lower() not in constellations:
+    SELECTED = item_key.lower()
+    if SELECTED not in constellations:
         return {"status": "error", "details": "Requested key not found."}
+
+    c = r.get("constellation:" + SELECTED)
+    if c != None:
+        return json.loads(c)
 
     if rl.allowed("SIMBAD_calls", r) == 1:
         loop = asyncio.get_running_loop()
         res = await loop.run_in_executor(None, call_SIMBAD, item_key)
+        r.set("constellation:" + SELECTED, json.dumps(res), 1209600)
         return res
 
     return {

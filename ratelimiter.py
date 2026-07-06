@@ -48,5 +48,4 @@ def allowed(key, r, TokenBucketConfig=DEFAULT_CONFIG):
     now = time()
 
     result = r.eval(LUA_SCRIPT, 1, key, str(maxTokens), str(refillRate), str(now))
-    print(result)
     return result[0]
