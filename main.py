@@ -13,10 +13,12 @@ load_dotenv()
 app = FastAPI()
 app.mount("/style", StaticFiles(directory="static"), name="static")
 
-if os.getenv("REDIS_MODE") == "DEV":
-    r = redis.Redis(host="localhost", decode_responses=True)
+r_url = os.getenv("REDIS_URL")
+if r_url != None:
+    r = redis.Redis.from_url(r_url)
 else:
-    r = redis.Redis.from_url(os.getenv("REDIS_URL"))
+    r = redis.Redis(host="localhost", decode_responses=True)
+
 r.get("test connection")
 
 constellations = {
