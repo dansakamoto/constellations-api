@@ -3,11 +3,14 @@ import numpy as np
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-import asyncio
 from homepage import Homepage
+import ratelimiter as rl
+import asyncio, redis
 
 app = FastAPI()
 app.mount("/style", StaticFiles(directory="static"), name="static")
+
+r = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 constellations = {
     "orion": "* Ori",
@@ -37,16 +40,22 @@ def read_root():
 
 @app.get("/{item_key}")
 async def get_data(item_key: str):
-    loop = asyncio.get_running_loop()
-    res = await loop.run_in_executor(None, call_SIMBAD, item_key)
-    return res
+    if item_key.lower() not in constellations:
+        return {"status": "error", "details": "Requested key not found."}
+
+    if rl.allowed("SIMBAD_calls", r) == 1:
+        loop = asyncio.get_running_loop()
+        res = await loop.run_in_executor(None, call_SIMBAD, item_key)
+        return res
+
+    return {
+        "status": "error",
+        "details": "Too many recent requests. Please wait a few seconds and then try again.",
+    }
 
 
 def call_SIMBAD(item_key: str):
     SELECTED = item_key
-
-    if SELECTED.lower() not in constellations:
-        return {"status": "error", "details": "Requested key not found."}
 
     STAR_CODE = constellations[SELECTED.lower()]
 
