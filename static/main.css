@@ -16,7 +16,7 @@ body {
 }
 
 div.header {
-  margin: 0;
+  margin: 0 0 auto 0;
   text-align: center;
   background-color: var(--color2);
   padding-left: 20px;
@@ -31,7 +31,7 @@ h1 {
 }
 
 div.content {
-  margin: 10px 50px;
+  margin: auto 50px;
   text-align: center;
 }
 
