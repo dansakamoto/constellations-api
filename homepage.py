@@ -10,6 +10,7 @@ class Homepage:
                     <link rel="stylesheet" type="text/css" href="style/main.css">
                 </head>
                 <body>
+                    <div class="stars"></div>
                     <div class="header">
                     <h1>Constellations API</h1>
                     <p class="subtitle">Returns a JSON-formatted list of position data for all stars within a constellation - from <a href="https://simbad.cds.unistra.fr/simbad/">SIMBAD</a>
