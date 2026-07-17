@@ -4,11 +4,8 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from homepage import Homepage
-from dotenv import load_dotenv
 import ratelimiter as rl
 import asyncio, redis, json, os
-
-load_dotenv()
 
 app = FastAPI()
 app.mount("/style", StaticFiles(directory="static"), name="static")
@@ -17,7 +14,7 @@ r_url = os.getenv("REDIS_URL")
 if r_url != None:
     r = redis.Redis.from_url(r_url)
 else:
-    r = redis.Redis(host="localhost", decode_responses=True)
+    r = redis.Redis(host="redis", decode_responses=True)
 
 r.get("test connection")
 
