@@ -8,7 +8,7 @@ from lookup_codes import constellations
 import rate_limiter as rl
 import asyncio, redis, json, os
 
-app = FastAPI()
+app = FastAPI(docs_url=None, redoc_url=None)
 app.mount("/style", StaticFiles(directory="static"), name="static")
 
 r_url = os.getenv("REDIS_URL")
