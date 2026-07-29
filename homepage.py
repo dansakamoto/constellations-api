@@ -28,7 +28,7 @@ class Homepage:
                     </u>
                     </div>
                     <div class="notice">
-                        <p>Data is cached for a period of time, but please note that if a constellation hasn't been looked up in a while it can take several moments to get data from SIMBAD.</p>
+                        <p>Data is cached for a period of time, but please note that if a constellation hasn't been looked up in a while it can a minute to get data from SIMBAD.</p><p><a class="footer-link" href="https://github.com/dansakamoto/constellations-api">Visit the github</a> for more information on what data is included.</p>
                     </div>
                 </body>
             </html>

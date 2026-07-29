@@ -82,6 +82,15 @@ a:hover {
   border-bottom: 2px solid var(--color2);
 }
 
+a.footer-link {
+  color: var(--color1);
+}
+a.footer-link:hover {
+  color: var(--color1);
+  border-top: 2px solid #734b5e;
+  border-bottom: 2px solid #734b5e;
+}
+
 ul {
   display: flex;
   flex-wrap: wrap;
