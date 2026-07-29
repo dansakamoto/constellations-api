@@ -1,6 +1,7 @@
 class Homepage:
     def __init__(self, constellations):
         self.start = """
+            <!DOCTYPE html>
             <html>
                 <head>
                     <title>Constellations</title>
