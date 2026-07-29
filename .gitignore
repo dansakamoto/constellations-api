@@ -12,4 +12,3 @@ wheels/
 # Dev stuff
 data
 .env
-compose.yaml
