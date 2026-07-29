@@ -4,7 +4,8 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from homepage import Homepage
-import ratelimiter as rl
+from lookup_codes import constellations
+import rate_limiter as rl
 import asyncio, redis, json, os
 
 app = FastAPI()
@@ -17,24 +18,6 @@ else:
     r = redis.Redis(host="redis", decode_responses=True)
 
 r.get("test connection")
-
-constellations = {
-    "orion": "* Ori",
-    "ursamajor": "* UMa",
-    "ursaminor": "* UMi",
-    "aries": "* Ari",
-    "taurus": "* Tau",
-    "gemini": "* Gem",
-    "cancer": "* Cnc",
-    "leo": "* Leo",
-    "virgo": "* Vir",
-    "libra": "* Lib",
-    "scorpio": "* Sco",
-    "sagittarius": "* Sgr",
-    "capricorn": "* Cap",
-    "aquarius": "* Aqr",
-    "pisces": "* Psc",
-}
 
 home = Homepage(constellations)
 
