@@ -74,7 +74,7 @@ def call_SIMBAD(item_key: str):
     simbad = Simbad(timeout=2000)
 
     simbad.add_votable_fields(
-        "otype", "mesDistance", "plx_value", "plx_qual", "plx_err", "plx_err_prec"
+        "otype", "mesDistance", "plx_value", "plx_qual", "plx_err", "plx_err_prec",  "V", "G"
     )
 
     info_simbad = simbad.query_object(
@@ -107,6 +107,12 @@ def call_SIMBAD(item_key: str):
             data["dist"] = row["mesdistance.dist"]
             data["dist_unit"] = row["mesdistance.unit"].strip()
             data["dist_method"] = row["mesdistance.method"].strip()
+
+        if row["V"] is not np.ma.masked:
+                data["V"] = row["V"]
+        
+        if row["G"] is not np.ma.masked:
+            data["G"] = row["G"]
 
         data_formatted[row["main_id"]] = data
 
