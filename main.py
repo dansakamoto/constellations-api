@@ -64,10 +64,11 @@ def call_SIMBAD(item_key: str):
         STAR_CODE, wildcard=True, criteria="otype = 'star..'", async_job=True
     )
 
-    data_formatted = {}
+    found_ids = {}
+    data_formatted = {"stars": []}
 
     for row in info_simbad:
-        if row["main_id"] in data_formatted:
+        if row["main_id"] in found_ids:
             continue
 
         if row["ra"] is np.ma.masked:
@@ -77,7 +78,10 @@ def call_SIMBAD(item_key: str):
         if row["otype"] is np.ma.masked:
             continue
 
+        found_ids[row["main_id"]] = True
+
         data = {
+            "main_id": row["main_id"],
             "ra": row["ra"],
             "dec": row["dec"],
             "otype": row["otype"],
@@ -97,7 +101,7 @@ def call_SIMBAD(item_key: str):
         if row["G"] is not np.ma.masked:
             data["G"] = row["G"]
 
-        data_formatted[row["main_id"]] = data
+        data_formatted["stars"].append(data)
 
     return data_formatted
 
