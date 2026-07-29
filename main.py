@@ -1,7 +1,7 @@
 from astroquery.simbad import Simbad
 import numpy as np
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from homepage import Homepage
 from lookup_codes import constellations
@@ -25,6 +25,10 @@ home = Homepage(constellations)
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     return home.build()
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+def robots():
+    return """User-agent: *\nDisallow: /"""
 
 
 @app.get("/{item_key}")
