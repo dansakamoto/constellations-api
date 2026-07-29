@@ -9,7 +9,7 @@ import rate_limiter as rl
 import asyncio, redis, json, os
 
 app = FastAPI(docs_url=None, redoc_url=None)
-app.mount("/style", StaticFiles(directory="static"), name="static")
+app.mount("/style", StaticFiles(directory="style"), name="style")
 
 r_url = os.getenv("REDIS_URL")
 if r_url != None:
