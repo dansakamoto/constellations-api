@@ -7,6 +7,10 @@ class Homepage:
                     <title>Constellations API</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1">
                     <meta name="description" content="An API that returns a JSON-formatted list of position data for all stars within a constellation, from the SIMBAD Astronomical Database.">
+                    <link rel="preload" href="fonts/UcCm3FwrK3iLTcvnUwoT9mI1F55MKw.woff2" as="font" type="font/woff2" />
+                    <link rel="preload" href="fonts/UcCm3FwrK3iLTcvnUwQT9mI1F54.woff2" as="font" type="font/woff2" />
+                    <link rel="preload" href="fonts/UcCo3FwrK3iLTcvsYwYZ8UA3J58.woff2" as="font" type="font/woff2" />
+                    <link rel="preload" href="fonts/UcCo3FwrK3iLTcviYwYZ8UA3.woff2" as="font" type="font/woff2" />
                     <style>
                         /* latin-ext */
                         @font-face {
