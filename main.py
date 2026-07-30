@@ -9,6 +9,14 @@ import rate_limiter as rl
 import asyncio, redis, json, os
 
 app = FastAPI(docs_url=None, redoc_url=None)
+@app.get("/healthz")
+def health_check():
+    return {
+            "status": "ok",
+            "details": "Service is running.",
+        }
+
+
 app.mount("/fonts", StaticFiles(directory="fonts"), name="fonts")
 
 r_url = os.getenv("REDIS_URL")
@@ -44,7 +52,8 @@ async def get_data(item_key: str):
     if rl.allowed("SIMBAD_calls", r) == 1:
         loop = asyncio.get_running_loop()
         res = await loop.run_in_executor(None, call_SIMBAD, item_key)
-        r.set("constellation:" + SELECTED, json.dumps(res), 1209600)
+        if res["status"] == "ok":
+            r.set("constellation:" + SELECTED, json.dumps(res), 1209600)
         return res
 
     return {
@@ -57,16 +66,19 @@ def call_SIMBAD(item_key: str):
     SELECTED = item_key
 
     STAR_CODE = constellations[SELECTED.lower()]
+    
+    try:
+        simbad = Simbad(timeout=2000)
 
-    simbad = Simbad(timeout=2000)
-
-    simbad.add_votable_fields(
-        "otype", "mesDistance", "plx_value", "plx_qual", "plx_err", "plx_err_prec",  "V", "G"
-    )
-
-    info_simbad = simbad.query_object(
-        STAR_CODE, wildcard=True, criteria="otype = 'star..'", async_job=True
-    )
+        simbad.add_votable_fields(
+            "otype", "mesDistance", "plx_value", "plx_qual", "plx_err", "plx_err_prec",  "V", "G"
+        )
+        
+        info_simbad = simbad.query_object(
+            STAR_CODE, wildcard=True, criteria="otype = 'star..'", async_job=True
+        )
+    except:
+        return {"status": "error", "details": "Error connecting to SIMBAD. Wait a moment and try again."}
 
     found_ids = {}
     data_formatted = {
@@ -111,8 +123,3 @@ def call_SIMBAD(item_key: str):
         data_formatted["stars"].append(data)
 
     return data_formatted
-
-
-def all_votable_fields():
-    simbad = Simbad()
-    simbad.list_votable_fields().pprint_all()
