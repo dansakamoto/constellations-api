@@ -69,7 +69,10 @@ def call_SIMBAD(item_key: str):
     )
 
     found_ids = {}
-    data_formatted = {"stars": []}
+    data_formatted = {
+        "status": "ok", 
+        "stars": []
+    }
 
     for row in info_simbad:
         if row["main_id"] in found_ids:
