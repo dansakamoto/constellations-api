@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from homepage import Homepage
 from lookup_codes import constellations
 import rate_limiter as rl
-import asyncio, redis, json, os
+import asyncio, redis, json, os, sys
 
 app = FastAPI(docs_url=None, redoc_url=None)
 @app.get("/healthz")
@@ -78,6 +78,7 @@ def call_SIMBAD(item_key: str):
             STAR_CODE, wildcard=True, criteria="otype = 'star..'", async_job=True
         )
     except:
+        print("Error connecting to SIMBAD", file=sys.stderr)
         return {"status": "error", "details": "Error connecting to SIMBAD. Wait a moment and try again."}
 
     found_ids = {}
