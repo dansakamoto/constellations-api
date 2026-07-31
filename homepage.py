@@ -80,13 +80,13 @@ class Homepage:
                         text-align: center;
                         }
 
-                        @media (width >= 48rem) {
+                        @media (width >= 40rem) {
                         div.content {
                             margin: auto 5vh;
                         }
                         }
 
-                        @media (width >= 64rem) {
+                        @media (width >= 73rem) {
                         div.content {
                             margin: auto 20vh;
                         }
