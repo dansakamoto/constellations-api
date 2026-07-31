@@ -1,6 +1,8 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: ./dev.dockerfile
     ports:
       - "8000:8000"
     depends_on:
@@ -8,7 +10,7 @@ services:
         condition: service_healthy
     develop:
       watch:
-        - action: sync+restart
+        - action: sync
           path: .
           target: /app
         - action: rebuild
