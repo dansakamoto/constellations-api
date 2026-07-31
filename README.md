@@ -1,6 +1,6 @@
 # Constellations API
 
-Returns a JSON-formatted list of position data for all stars within a constellation - from the [SIMBAD Astronomical Database](https://simbad.cds.unistra.fr/simbad/). Note that it returns ALL stars in a constellation region, not just the subset that make up the commonly recognized shape.
+An endpoint for getting JSON-formatted lists of stars by constellation region from the [SIMBAD Astronomical Database](https://simbad.cds.unistra.fr/simbad/). Created to support artistic projects, this tool retrieves position and brightness data but may not include all of the error/precision details necessary for scientific research.
 
 ## Fields returned
 

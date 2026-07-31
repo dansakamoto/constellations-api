@@ -278,7 +278,8 @@ class Homepage:
                     <main>
                     <div class="header">
                     <h1>Constellations API</h1>
-                    <p class="subtitle">Returns a JSON-formatted list of position data for all stars within a constellation - from <a href="https://simbad.cds.unistra.fr/simbad/">SIMBAD</a>
+                    <p class="subtitle">
+                        An endpoint for getting JSON-formatted lists of stars by constellation region from the <a href="https://simbad.cds.unistra.fr/simbad/">SIMBAD&nbsp;Astronomical&nbsp;Database</a>.<br>Created to support artistic projects, this tool retrieves position and brightness data but may not include all of the error/precision details necessary for scientific research.
                     </div>
                     <div class="content">
                     <p>supported keys:</p>
@@ -293,7 +294,7 @@ class Homepage:
                     </u>
                     </div>
                     <div class="notice">
-                        <p>Data is cached for a period of time, but constellations that haven't been viewed in a while may take a minute to load while data from SIMBAD is refreshed.</p><p><a class="footer-link" href="https://github.com/dansakamoto/constellations-api">View on github</a> for more information about the fields included in responses.</p>
+                        <p>Data is cached for a period of time, but constellations that haven't been viewed in a while may take a minute to load while data from SIMBAD is refreshed.</p><p><a class="footer-link" href="https://github.com/dansakamoto/constellations-api">View on github</a> for more information about what information is included in responses.</p>
                     </div>
                     </main>
                 </body>
