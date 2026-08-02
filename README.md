@@ -6,7 +6,7 @@ An endpoint for getting JSON-formatted lists of stars by constellation region fr
 
 - main_id: Main identifier
 - ra: [Right Ascension](https://en.wikipedia.org/wiki/Right_ascension) (ICRS coord, ep=J2000)
-- dec: [Declination](https://en.wikipedia.org/wiki/Declination) (ICRS coord., ep=J2000)
+- dec: [Declination](https://en.wikipedia.org/wiki/Declination) (ICRS coord, ep=J2000)
 - otype: [Object type](https://simbad.cds.unistra.fr/guide/otypes.htx)
 - plx_value: [Parallax](https://en.wikipedia.org/wiki/Stellar_parallax) in milliarcseconds
 - dist: [Measured distance](https://simbad.cds.unistra.fr/simbad/sim-display?data=meas#distance) (Note: this is a single-item query for now, and it's unclear whether this results in the most accurate available data. This might be good enough for artistic applications, but it also might be worth doing a deeper dive into available options.)
